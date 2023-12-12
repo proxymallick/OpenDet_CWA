@@ -1,10 +1,8 @@
 ## OpenDet
 
-<img src="./docs/vis_images.pdf" width="78%"/>
+<img src="./docs/vis_images.png" width="78%"/>
 
-> **Expanding Low-Density Latent Regions for Open-Set Object Detection (CVPR2022)**<br>
-> [Jiaming Han](https://csuhan.com), [Yuqiang Ren](https://github.com/Anymake), [Jian Ding](https://dingjiansw101.github.io), [Xingjia Pan](https://scholar.google.com.hk/citations?user=NaSU3eIAAAAJ&hl=zh-CN), Ke Yan, [Gui-Song Xia](http://www.captain-whu.com/xia_En.html).<br>
-> [arXiv preprint](https://arxiv.org/abs/2203.14911).
+> **Wasserstein Distance-based Expansion of Low-Density Latent Regions for Unknown Class Detection (CVPR2022)**<br>
 
 OpenDet2: OpenDet is implemented based on [detectron2](https://github.com/facebookresearch/detectron2).
 
