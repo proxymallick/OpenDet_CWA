@@ -1,0 +1,13 @@
+
+
+To Test and Conduct the inference : 
+python tools/train_net.py --num-gpus 1 --config-file configs/faster_rcnn_R_50_FPN_3x_opendet.yaml --eval-only MODEL.WEIGHTS output/faster_rcnn_R_50_FPN_3x_opendet/model_final.pth 
+
+
+To train a opendet model
+python tools/train_net.py --num-gpus 1 --config-file configs/faster_rcnn_R_50_FPN_3x_opendet.yaml
+
+
+
+resume 
+python tools/train_net.py --num-gpus 1 --config-file configs/faster_rcnn_R_50_FPN_3x_opendet.yaml --resume MODEL.WEIGHTS output/faster_rcnn_R_50_FPN_3x_opendet/model_.pth 
