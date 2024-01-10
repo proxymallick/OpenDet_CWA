@@ -70,3 +70,32 @@ Note: you may need to rebuild detectron2 after reinstalling a different build of
   * Detectron2 is not built with the correct compute compability for the GPU model.
     The compute compability defaults to match the GPU found on the machine during building,
     and can be controlled by `TORCH_CUDA_ARCH_LIST` environment variable during installation.
+
+
+	/opt/conda/lib/python3.8/site-packages/detectron2/data/datasets/pascal_voc.py
+
++ RuntimeError: Couldn't load custom C++ ops. This can happen if your PyTorch and torchvision versions are incompatible, or if you had errors while compiling torchvision from source. F
+
+   * Uninstall torchvision existing version and reinstall torchvision and the torch will consider the compatible version to be installed 
+
+
+
++ Issues with "site-packages/geomloss/sinkhorn_divergence.py"
+ 
+   * Change the view function to reshape function and there would be no problems running geomloss
+
+
+
++  File "/opt/conda/lib/python3.8/site-packages/torch/optim/adamw.py", line 496, in _multi_tensor_adamw
+    torch._foreach_mul_(device_params, 1 - lr * weight_decay)
+    TypeError: unsupported operand type(s) for *: 'float' and 'NoneType'
+
+* some of the torch versions does not handle None as weight decay so you can add a line to handle:
+  if weight_decay not in [None,[]]:
+    ....
+
+
+
+* File "/opt/conda/lib/python3.8/site-packages/torch/optim/sgd.py", line 291, in _multi_tensor_sgd
+  Similar solution as above
+
