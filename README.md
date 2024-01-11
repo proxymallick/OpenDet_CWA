@@ -4,7 +4,7 @@
 
 > **Wasserstein Distance-based Expansion of Low-Density Latent Regions for Unknown Class Detection (CVPR2022)**<br>
 
-OpenDet2: OpenDet is implemented based on [detectron2](https://github.com/facebookresearch/detectron2).
+OpenDet_CWA: OpenDet_CWA is implemented based on [detectron2](https://github.com/facebookresearch/detectron2) and [Opendet2] (https://github.com/csuhan/opendet2).
 
 ### Setup
 
@@ -17,11 +17,10 @@ Here is a from-scratch setup script.
 ```
 conda create -n opendet2 python=3.8 -y
 conda activate opendet2
-
-conda install pytorch=1.8.1 torchvision cudatoolkit=10.1 -c pytorch -y
+pip install torch==2.0.1+cu117 torchvision torchaudio -f https://download.pytorch.org/whl/torch_stable.html
 pip install detectron2==0.5 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/torch1.8/index.html
-git clone https://github.com/csuhan/opendet2.git
-cd opendet2
+git clone https://github.com/proxymallick/OpenDet_CWA.git
+cd OpenDet_CWA
 pip install -v -e .
 ```
 
@@ -43,18 +42,27 @@ We report results on VOC and VOC-COCO-20, providing pretrained models. For full 
 
 ## Performance Metrics
 
-| Method                   | VOC   | VOC-COCO-20 | VOC-COCO-40 | VOC-COCO-60 |
-|--------------------------|-------|-------------|-------------|-------------|
-|                          | $mAP_{K\uparrow}$ | $WI_{\downarrow}$ | $AOSE_{\downarrow}$ | $mAP_{K\uparrow}$ | $AP_{U\uparrow}$ | $WI_{\downarrow}$ | $AOSE_{\downarrow}$ | $mAP_{K\uparrow}$ | $AP_{U\uparrow}$ | $WI_{\downarrow}$ | $AOSE_{\downarrow}$ | $mAP_{K\uparrow}$ | $AP_{U\uparrow}$ |
-|--------------------------|-------|-------------|-------------|-------------|
-| FR-CNN                  | **80.10** | 18.39 | 15118 | **58.45** | - | 22.74 | 23391 | 55.26 | - | 18.49 | 25472 | 55.83 | - |
-| CAC                    | 79.70 | 19.99 | 16033 | 57.76 | - | 24.72 | 25274 | 55.04 | - | 20.21 | 27397 | 55.96 | - |
-| PROSER                 | 79.68 | 19.16 | 13035 | 57.66 | 10.92 | 24.15 | 19831 | 54.66 | 7.62 | 19.64 | 21322 | 55.20 | 3.25 |
-| ORE                    | 79.80 | 18.18 | 12811 | 58.25 | 2.60 | 22.40 | 19752 | 55.30 | 1.70 | 18.35 | 21415 | 55.47 | 0.53 |
-| DS                     | **80.04** | 16.98 | 12868 | 58.35 | 5.13 | 20.86 | 19775 | 55.31 | 3.39 | 17.22 | 21921 | 55.77 | 1.25 |
-| OD                     | **80.02** | 14.95 | 11286 | **58.75** | 14.93 | 18.23 | 16800 | **55.83** | **10.58** | 14.24 | 18250 | **56.37** | **4.36** |
-| OD-SN                  | 79.66 | **12.96** | **9432** | 57.86 | **14.78** | **16.28** | **14118** | **55.36** | 10.54 | **12.76** | **15251** | **56.07** | 4.17 |
-| OD-CWA                 | 79.20 | **11.70** | **8748** | 57.58 | **15.36** | **14.58** | **13037** | **55.26** | **10.98** | **11.55** | **14984** | **55.73** | **4.45** |
+
+### Model Zoo
+
+We report the results on VOC and VOC-COCO-20, and provide pretrained models. Please refer to the corresponding log file for full results.
+
+* **Faster R-CNN**
+  ***ResNet-50***
+| Method       | backbone | mAP<sub>K&uarr;</sub>(VOC) | WI<sub>&darr;</sub> | AOSE<sub>&darr;</sub> | mAP<sub>K&uarr;</sub> | AP<sub>U&uarr;</sub> |      Download     |
+|--------------|:--------:|:--------------------------:|:-------------------:|:---------------------:|:---------------------:|:--------------------:| :----------------:|
+| FR-CNN       |   R-50    | **80.10** | 18.39 | 15118 | **58.45** | - | 22.74 | 23391 | 55.26 | - | 18.49 | 25472 | 55.83 | - | [config](configs/retinanet_R_50_FPN_3x_baseline.yaml) [model](https://drive.google.com/drive/folders/15fHfyA2HuXp6LfdTMBuHG6ZwtLcgvD-p?usp=sharing) |
+| PROSER       |   R-50   |            79.42           |        20.44        |         14266         |         56.72         |         16.99        |  [config](configs/retinanet_R_50_FPN_3x_baseline.yaml) [model](https://drive.google.com/drive/folders/15fHfyA2HuXp6LfdTMBuHG6ZwtLcgvD-p?usp=sharing) |
+| ORE          |   R-50   |            79.80           |        18.18        |         12811         |         58.25         |         2.60         | [config](configs/retinanet_R_50_FPN_3x_baseline.yaml) [model](https://drive.google.com/drive/folders/15fHfyA2HuXp6LfdTMBuHG6ZwtLcgvD-p?usp=sharing) |
+| DS           |   R-50   |            79.70           |        16.76        |         13062         |         58.46         |         8.75         | [config](configs/retinanet_R_50_FPN_3x_baseline.yaml) [model](https://drive.google.com/drive/folders/15fHfyA2HuXp6LfdTMBuHG6ZwtLcgvD-p?usp=sharing) |
+
+
+
+| Method       | backbone | mAP<sub>K&uarr;</sub>(VOC) | WI<sub>&darr;</sub> | AOSE<sub>&darr;</sub> | mAP<sub>K&uarr;</sub> | AP<sub>U&uarr;</sub> |      Download     |
+|--------------|:--------:|:--------------------------:|:-------------------:|:---------------------:|:---------------------:|:--------------------:| :----------------:|
+| OpenDet(OD)  |  Swin-T  |           **80.02** | 14.95 | 11286 | **58.75** | 14.93 |  [config](configs/retinanet_R_50_FPN_3x_baseline.yaml) [model](https://drive.google.com/drive/folders/15fHfyA2HuXp6LfdTMBuHG6ZwtLcgvD-p?usp=sharing) |
+| OD-CWA   |  Swin-T  |        79.20 | **11.70** | **8748** | 57.58 | **15.36** |[config](configs/retinanet_R_50_FPN_3x_baseline.yaml) [model](https://drive.google.com/drive/folders/15fHfyA2HuXp6LfdTMBuHG6ZwtLcgvD-p?usp=sharing) |
+| OD-SN        |  Swin-T  |                      79.66 | **12.96**           | **9432**              | 57.86 | **14.78** | **16.28** |  [config](configs/retinanet_R_50_FPN_3x_baseline.yaml) [model](https://drive.google.com/drive/folders/15fHfyA2HuXp6LfdTMBuHG6ZwtLcgvD-p?usp=sharing) |
 
 * Significant improvements in $WI, AOSE,$ and $AP_{U}$ are achieved at the expense of a slight decrease in $mAP_{K}$. Numbers in bold black color indicate the best performing on that metric, and bold orange indicates second best.*
 
