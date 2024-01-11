@@ -1,4 +1,4 @@
-## OpenDet
+## OpenDet-Class Wasserstein Anchor (OD-CWA)
 
 <img src="./docs/vis_images.png" width="78%"/>
 
