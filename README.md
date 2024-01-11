@@ -56,7 +56,7 @@ We report results on VOC and VOC-COCO-20, providing pretrained models. For full 
 | OD-SN                  | 79.66 | **12.96** | **9432** | 57.86 | **14.78** | **16.28** | **14118** | **55.36** | 10.54 | **12.76** | **15251** | **56.07** | 4.17 |
 | OD-CWA                 | 79.20 | **11.70** | **8748** | 57.58 | **15.36** | **14.58** | **13037** | **55.26** | **10.98** | **11.55** | **14984** | **55.73** | **4.45** |
 
-*Significant improvements in $WI, AOSE,$ and $AP_{U}$ are achieved at the expense of a slight decrease in $mAP_{K}$. Numbers in bold black color indicate the best performing on that metric, and bold orange indicates second best.*
+* Significant improvements in $WI, AOSE,$ and $AP_{U}$ are achieved at the expense of a slight decrease in $mAP_{K}$. Numbers in bold black color indicate the best performing on that metric, and bold orange indicates second best.*
 
 
 **Note**:
