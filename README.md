@@ -122,5 +122,5 @@ python tools/convert_swin_to_d2.py swin_tiny_patch4_window7_224.pth swin_tiny_pa
 * **Embedding projections of Knowns (ID: 1-20) and Unknowns (ID: 80) of OD-CWA (left) vs. OD-CWA (right)**
 
 
-<img src="./docs/emb.png" width="38%"/>
-<img src="./docs/emb_od.png" width="38%"/>
+
+!<img src="./docs/emb.png" width="38%"/>|<img src="./docs/emb_od.png" width="38%"/>
