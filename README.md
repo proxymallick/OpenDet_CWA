@@ -6,6 +6,14 @@
 
 OpenDet_CWA: OpenDet_CWA is implemented based on [detectron2](https://github.com/facebookresearch/detectron2) and [Opendet2] (https://github.com/csuhan/opendet2).
 
+### Illustration of OD-CWA framework
+
+<img src="./docs/OD_CWA.png" width="78%"/>
+
+
+
+
+
 ### Setup
 
 The code is based on [detectron2 v0.5](https://github.com/facebookresearch/detectron2/tree/v0.5). 
@@ -82,8 +90,6 @@ Then, run the following command:
 python tools/train_net.py --num-gpus 8 --config-file configs/faster_rcnn_R_50_FPN_3x_opendet.yaml \
         --eval-only MODEL.WEIGHTS output/faster_rcnn_R_50_FPN_3x_opendet/model_final.pth
 ```
-
-
 
 * **Training**
 
