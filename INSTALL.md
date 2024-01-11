@@ -19,7 +19,7 @@ also installs detectron2 with a few simple commands.
 
 
 
-### Common Installation Issues
+### Common Installation and Run Issues of OpenDet 2
 
 + Undefined torch/aten symbols, or segmentation fault immediately when running the library.
   This may be caused by the following reasons:
