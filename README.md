@@ -6,7 +6,7 @@
 
 OpenDet_CWA: OpenDet_CWA is implemented based on [detectron2](https://github.com/facebookresearch/detectron2) and [Opendet2] (https://github.com/csuhan/opendet2).
 
-arXiv paper: [https://arxiv.org/abs/2003.08798](https://arxiv.org/abs/2003.08798)
+arXiv paper:  
 
 
 ### Illustration of OD-CWA framework
