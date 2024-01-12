@@ -6,9 +6,7 @@
 
 OpenDet_CWA: OpenDet_CWA is implemented based on [detectron2](https://github.com/facebookresearch/detectron2) and [Opendet2] (https://github.com/csuhan/opendet2).
 
-arXiv paper:  
-
-
+arXiv paper:
 ### Illustration of OD-CWA framework
 
 <img src="./docs/od_cwa.png" width="78%"/>
@@ -75,10 +73,12 @@ We report the results on VOC and VOC-COCO-20, and provide pretrained models. Ple
 | Method       | backbone | mAP<sub>K&uarr;</sub>(VOC) | WI<sub>&darr;</sub> | AOSE<sub>&darr;</sub> | mAP<sub>K&uarr;</sub> | AP<sub>U&uarr;</sub> |  
 |--------------|:--------:|:--------------------------:|:-------------------:|:---------------------:|:---------------------:|:--------------------:|  
 | FR-CNN       |   R-50    | **80.10** | 18.39 | 15118 | **58.45** | -  | 
+| CAC  |   R-50   |   79.70 | 19.99 |16033 |57.76 |-| 
 | PROSER       |   R-50   |            79.42           |        20.44        |         14266         |         56.72         |         16.99        |  
 | ORE          |   R-50   |            79.80           |        18.18        |         12811         |         58.25         |         2.60         |  
 | DS           |   R-50   |            79.70           |        16.76        |         13062         |         58.46         |         8.75         |  
-
+| OD-SN |   R-50   |  79.66|  12.96 |  9432|   57.86 |  14.78|   
+| OD-CWA |   R-50   |   79.20|  11.70 | 8748 |  57.58 |  15.36 |  
 
 **Swin-T**
 | Method       | backbone | mAP<sub>K&uarr;</sub>(VOC) | WI<sub>&darr;</sub> | AOSE<sub>&darr;</sub> | mAP<sub>K&uarr;</sub> | AP<sub>U&uarr;</sub> |  
