@@ -78,7 +78,8 @@ We report the results on VOC and VOC-COCO-20, and provide pretrained models. Ple
 | ORE          |   R-50   |            79.80           |        18.18        |         12811         |         58.25         |         2.60         |  
 | DS           |   R-50   |            79.70           |        16.76        |         13062         |         58.46         |         8.75         |  
 | OD-SN |   R-50   |  79.66|  12.96 |  9432|   57.86 |  14.78|   
-| OD-CWA |   R-50   |   79.20|  11.70 | 8748 |  57.58 |  15.36 |  
+| OD-CWA |   R-50   |   79.20|  **11.70** | **8748** |  57.58 |  **15.36** |  
+
 
 **Swin-T**
 | Method       | backbone | mAP<sub>K&uarr;</sub>(VOC) | WI<sub>&darr;</sub> | AOSE<sub>&darr;</sub> | mAP<sub>K&uarr;</sub> | AP<sub>U&uarr;</sub> |  
