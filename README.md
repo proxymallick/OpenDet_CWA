@@ -101,7 +101,7 @@ We report the results on VOC and VOC-COCO-20, and provide pretrained models. Ple
 ### Train and Test
 * **Evaluation and Visualisation**
 
-The embedding space visualisation can be conducted by running jupyter notebook [inference](inference.ipynb) file. It loads the embeddings which are stored during the evaluation phase on the holdout test set. The notebook also contains the codes to generate the inter-cluster and intra-cluster distance that following 6 different metrics.
+The embedding space visualisation can be conducted by running jupyter notebook [inference](docs/inference.ipynb) file. It loads the embeddings which are stored during the evaluation phase on the holdout test set. The notebook also contains the codes to generate the inter-cluster and intra-cluster distance that following 6 different metrics.
 
 * **Testing**
 
