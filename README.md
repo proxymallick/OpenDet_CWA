@@ -11,6 +11,7 @@ arXiv paper:
 
 <img src="./docs/od_cwa.png" width="78%"/>
 
+
 ## Abstract
 This paper addresses the significant challenge in open-set object detection (OSOD): the tendency of state-of-the-art detectors to erroneously classify unknown objects as known categories with high confidence. We present a novel approach that effectively identifies unknown objects by distinguishing between high and low-density regions in latent space. Our method builds upon the Open-Det (OD) framework, introducing two new elements to the loss function. These elements enhance the known embedding space's clustering and expand the unknown space's low-density regions. The first addition is the Class Wasserstein Anchor (CWA), a new function that refines the classification boundaries. The second is a spectral normalisation step, improving the robustness of the model. Together, these augmentations to the existing Contrastive Feature Learner (CFL) and Unknown Probability Learner (UPL) loss functions significantly improve OSOD performance. Our proposed OpenDet-CWA (OD-CWA) method demonstrates: a) a reduction in open-set errors by approximately 17%-22%, b) an enhancement in novelty detection capability by 1.5%-16%, and c) a decrease in the wilderness index by 2%-20% across various open-set scenarios. These results represent a substantial advancement in the field, showcasing the potential of our approach in managing the complexities of open-set object detection.
 
@@ -128,3 +129,21 @@ python tools/convert_swin_to_d2.py swin_tiny_patch4_window7_224.pth swin_tiny_pa
 
 * **Embedding projections of Knowns (ID: 1-20) and Unknowns (ID: 80) of   OD (right) vs. OD-CWA (left)**
 !<img src="./docs/emb.png" width="48%"/>|<img src="./docs/emb_od.png" width="48%"/>
+
+
+If you use this repository, please cite:
+
+```text
+@misc{mallick2024wasserstein,
+      title={Wasserstein Distance-based Expansion of Low-Density Latent Regions for Unknown Class Detection}, 
+      author={Prakash Mallick and Feras Dayoub and Jamie Sherrah},
+      year={2024},
+      eprint={2401.05594},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+```
+
+**Contact**
+
+If you have any questions or comments, please contact [Prakash Mallick](mailto:prakash.mallick@adelaide.edu.au).
