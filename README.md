@@ -122,6 +122,5 @@ wget https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_ti
 python tools/convert_swin_to_d2.py swin_tiny_patch4_window7_224.pth swin_tiny_patch4_window7_224_d2.pth
 ```
 
-* **Embedding projections of Knowns (ID: 1-20) and Unknowns (ID: 80) of  vs. OD-CWA (right)**
+* **Embedding projections of Knowns (ID: 1-20) and Unknowns (ID: 80) of   OD (right) vs. OD-CWA (left)**
 !<img src="./docs/emb.png" width="48%"/>|<img src="./docs/emb_od.png" width="48%"/>
-*OD(Open-Det)-CWA(Class Wasserstein Anchor)* | *OD (Open-Det)*
