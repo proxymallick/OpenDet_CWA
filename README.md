@@ -124,7 +124,4 @@ python tools/convert_swin_to_d2.py swin_tiny_patch4_window7_224.pth swin_tiny_pa
 
 * **Embedding projections of Knowns (ID: 1-20) and Unknowns (ID: 80) of  vs. OD-CWA (right)**
 !<img src="./docs/emb.png" width="48%"/>|<img src="./docs/emb_od.png" width="48%"/>
-![Image 1](./docs/emb.png) | ![Image 2](./docs/emb_od.png)
-:--:|:--:
-:--:|:--:
 *OD(Open-Det)-CWA(Class Wasserstein Anchor)* | *OD (Open-Det)*
