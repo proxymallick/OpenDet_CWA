@@ -95,9 +95,13 @@ We report the results on VOC and VOC-COCO-20, and provide pretrained models. Ple
 * The above codes and repo has been modified from [OpenDet2](https://github.com/csuhan/opendet2)
 * There were issues installing and running Opendet2 from the instructions and this repo provides modified codes
 * The above results are taken from the paper and not the reimplemented version mentioned in (https://github.com/csuhan/opendet2). 
+* The download column contains new models for CAC, OD-SN, OD-CWA for ResNet-50 and Swin-T backbone. However, the rest of the models for comparison are taken from [OpenDet2](https://github.com/csuhan/opendet2)
 
 
 ### Train and Test
+* **Evaluation and Visualisation**
+
+The embedding space visualisation can be conducted by running jupyter notebook [inference](inference.ipynb) file. It loads the embeddings which are stored during the evaluation phase on the holdout test set. The notebook also contains the codes to generate the inter-cluster and intra-cluster distance that following 6 different metrics.
 
 * **Testing**
 
