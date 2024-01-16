@@ -68,25 +68,27 @@ We report results on VOC and VOC-COCO-20, providing pretrained models. For full 
 
 We report the results on VOC and VOC-COCO-20, and provide pretrained models. Please refer to the corresponding log file for full results.
 
-* **Faster R-CNN**
+**Faster R-CNN**
 
-| Method       | backbone | mAP<sub>K&uarr;</sub>(VOC) | WI<sub>&darr;</sub> | AOSE<sub>&darr;</sub> | mAP<sub>K&uarr;</sub> | AP<sub>U&uarr;</sub> |  
-|--------------|:--------:|:--------------------------:|:-------------------:|:---------------------:|:---------------------:|:--------------------:|  
-| FR-CNN       |   R-50    | **80.10** | 18.39 | 15118 | **58.45** | -  | 
-| CAC  |   R-50   |   79.70 | 19.99 |16033 |57.76 |-| 
-| PROSER       |   R-50   |            79.42           |        20.44        |         14266         |         56.72         |         16.99        |  
-| ORE          |   R-50   |            79.80           |        18.18        |         12811         |         58.25         |         2.60         |  
-| DS           |   R-50   |            79.70           |        16.76        |         13062         |         58.46         |         8.75         |  
-| OD-SN |   R-50   |  79.66|  12.96 |  9432|   57.86 |  14.78|   
-| OD-CWA |   R-50   |   79.20|  **11.70** | **8748** |  57.58 |  **15.36** |  
+| Method       | backbone | mAP<sub>K&uarr;</sub>(VOC) | WI<sub>&darr;</sub> | AOSE<sub>&darr;</sub> | mAP<sub>K&uarr;</sub> | AP<sub>U&uarr;</sub> |   Download   | 
+|--------------|:--------:|:--------------------------:|:-------------------:|:---------------------:|:---------------------:|:--------------------:|  :------------:|
+| FR-CNN       |   R-50    | **80.10** | 18.39 | 15118 | **58.45** | -  | [config](configs/faster_rcnn_R_50_FPN_3x_baseline.yaml) [model](https://drive.google.com/drive/folders/10uFOLLCK4N8te08-C-olRyDV-cJ-L6lU?usp=sharing) |
+| CAC  |   R-50   |   79.70 | 19.99 |16033 |57.76 |-| [config](configs/faster_rcnn_R_50_FPN_3x_opendet.yaml) [model](https://drive.google.com/drive/folders/1yf2-oHS35ZDOkiALf4Ge1FL3MQZGtiC8?usp=drive_link) |
+| PROSER       |   R-50   |            79.42           |        20.44        |         14266         |         56.72         |         16.99        |  [config](configs/faster_rcnn_R_50_FPN_3x_proser.yaml) [model](https://drive.google.com/drive/folders/1_L85gisyvDtBXPe2UbI49vrd5FoBIOI_?usp=sharing) |
+| ORE          |   R-50   |            79.80           |        18.18        |         12811         |         58.25         |         2.60         | [config]() [model]() |
+| DS           |   R-50   |            79.70           |        16.76        |         13062         |         58.46         |         8.75         |  [config](configs/faster_rcnn_R_50_FPN_3x_ds.yaml) [model](https://drive.google.com/drive/folders/1OWDjL29E2H-_lSApXqM2r8PS7ZvUNtiv?usp=sharing) |
+| OD         |  R-50   |            80.02           |        12.50        |         10758         |         58.64         |         14.38        | [config](configs/faster_rcnn_R_50_FPN_3x_opendet.yaml) [model](https://drive.google.com/drive/folders/1fzD0iJ6lJrPL4ffByeO9M-udckbYqIxY?usp=sharing) |
+| OD-SN |   R-50   |  79.66|  12.96 |  9432|   57.86 |  14.78|   [config](configs/faster_rcnn_R_50_FPN_3x_opendet.yaml) [model](https://drive.google.com/drive/folders/1yfMulONdB8P5ijlJdpTFf-wrsFoKNzeN?usp=drive_link) |
+| OD-CWA |   R-50   |   79.20|  **11.70** | **8748** |  57.58 |  **15.36** |  [config](configs/faster_rcnn_R_50_FPN_3x_opendet.yaml) [model](https://drive.google.com/drive/folders/1t48fAw0AscCo_5OFZS9aCT_wV0v1CknM?usp=drive_link) |
 
 
 **Swin-T**
-| Method       | backbone | mAP<sub>K&uarr;</sub>(VOC) | WI<sub>&darr;</sub> | AOSE<sub>&darr;</sub> | mAP<sub>K&uarr;</sub> | AP<sub>U&uarr;</sub> |  
-|--------------|:--------:|:--------------------------:|:-------------------:|:---------------------:|:---------------------:|:--------------------:|  
-| OpenDet(OD)  |  Swin-T  |           **80.02** | 14.95 | 11286 | **58.75** | 14.93 |  
-| OD-CWA   |  Swin-T  |        79.20 | **11.70** | **8748** | 57.58 | **15.36** | 
-| OD-SN        |  Swin-T  |                      79.66 | **12.96**           | **9432**              | 57.86 | **14.78** | 
+| Method       | backbone | mAP<sub>K&uarr;</sub>(VOC) | WI<sub>&darr;</sub> | AOSE<sub>&darr;</sub> | mAP<sub>K&uarr;</sub> | AP<sub>U&uarr;</sub> |   Download   | 
+|--------------|:--------:|:--------------------------:|:-------------------:|:---------------------:|:---------------------:|:--------------------:|  :------------:|
+| OpenDet(OD)  |  Swin-T  |           83.29 | 12.51 | 9875 | 63.17 | 15.77 |  [config](configs/faster_rcnn_Swin_T_FPN_3x_opendet.yaml) [model](https://drive.google.com/drive/folders/1j5SkEzeqr0ZnGVVZ4mzXSOvookHfvVvm?usp=sharing) |
+| OD-SN        |  Swin-T  |                      82.49 | 14.39           | **7306**              | 61.59 | 16.45 | [config](configs/faster_rcnn_R_50_FPN_3x_ds.yaml) [model](https://drive.google.com/drive/folders/1OWDjL29E2H-_lSApXqM2r8PS7ZvUNtiv?usp=sharing) |
+| OD-CWA   |  Swin-T  |        **83.34** | **10.35** | 8946 | **63.58** | **18.22** | [config](configs/faster_rcnn_R_50_FPN_3x_opendet.yaml) [model](https://drive.google.com/drive/folders/1A2VxT5BI3FteS5Y0S7pjkmJY_imjmT0c?usp=drive_link) |
+
 
 
 **Note**:
@@ -120,8 +122,10 @@ wget https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_ti
 python tools/convert_swin_to_d2.py swin_tiny_patch4_window7_224.pth swin_tiny_patch4_window7_224_d2.pth
 ```
 
-* **Embedding projections of Knowns (ID: 1-20) and Unknowns (ID: 80) of OD-CWA (left) vs. OD-CWA (right)**
+* **Embedding projections of Knowns (ID: 1-20) and Unknowns (ID: 80) of  vs. OD-CWA (right)**
 
 
 
 !<img src="./docs/emb.png" width="38%"/>|<img src="./docs/emb_od.png" width="38%"/>
+:--:|:--:
+*OD(Open-Det)-CWA(Class Wasserstein Anchor)* | *OD (Open-Det)*
