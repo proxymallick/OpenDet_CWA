@@ -88,7 +88,7 @@ We report the results on VOC and VOC-COCO-20, and provide pretrained models. Ple
 | Method       | backbone | mAP<sub>K&uarr;</sub>(VOC) | WI<sub>&darr;</sub> | AOSE<sub>&darr;</sub> | mAP<sub>K&uarr;</sub> | AP<sub>U&uarr;</sub> |   Download   | 
 |--------------|:--------:|:--------------------------:|:-------------------:|:---------------------:|:---------------------:|:--------------------:|  :------------:|
 | OpenDet(OD)  |  Swin-T  |           83.29 | 12.51 | 9875 | 63.17 | 15.77 |  [config](configs/faster_rcnn_Swin_T_FPN_3x_opendet.yaml) [model](https://drive.google.com/drive/folders/1j5SkEzeqr0ZnGVVZ4mzXSOvookHfvVvm?usp=sharing) |
-| OD-SN        |  Swin-T  |                      82.49 | 14.39           | **7306**              | 61.59 | 16.45 | [config](configs/faster_rcnn_R_50_FPN_3x_ds.yaml) [model](https://drive.google.com/drive/folders/1OWDjL29E2H-_lSApXqM2r8PS7ZvUNtiv?usp=sharing) |
+| OD-SN        |  Swin-T  |                      82.49 | 14.39           | **7306**              | 61.59 | 16.45 | [config](configs/faster_rcnn_R_50_FPN_3x_opendet.yaml) [model](https://drive.google.com/drive/folders/1pcLE3Dp66gmboBnu6xask0RWI4a3HX7e?usp=drive_link) |
 | OD-CWA   |  Swin-T  |        **83.34** | **10.35** | 8946 | **63.58** | **18.22** | [config](configs/faster_rcnn_R_50_FPN_3x_opendet.yaml) [model](https://drive.google.com/drive/folders/1A2VxT5BI3FteS5Y0S7pjkmJY_imjmT0c?usp=drive_link) |
 
 
