@@ -38,8 +38,6 @@ import datetime
 
 
 
-
-
 class LossEvalHook(HookBase):
     def __init__(self, eval_period, model, data_loader):
         self._model = model

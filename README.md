@@ -2,7 +2,7 @@
 
 <img src="./docs/vis_images.png" width="78%"/>
 
-> **Wasserstein Distance-based Expansion of Low-Density Latent Regions for Unknown Class Detection (CVPR2022)**<br>
+> **Wasserstein Distance-based Expansion of Low-Density Latent Regions for Unknown Class Detection**<br>
 
 OpenDet_CWA: OpenDet_CWA is implemented based on [detectron2](https://github.com/facebookresearch/detectron2) and [Opendet2] (https://github.com/csuhan/opendet2).
 
