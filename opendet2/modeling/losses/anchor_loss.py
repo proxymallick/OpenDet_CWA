@@ -1,6 +1,9 @@
 # --------------------------------------------------------
-# Anchor loss with Wasserstein distance metric along with adaptive anchors motivated from https://github.com/dimitymiller/openset_detection
+# Anchor loss with Wasserstein distance metric along with adaptive anchors 
 # This code has been modified from the codes of the above repo.
+# Original code by Dimity Miller motivated from https://github.com/dimitymiller/openset_detection
+
+# Modifications by Your Prakash Mallick
 # Copyright © 2024 Prakash Mallick, AIML
 # --------------------------------------------------------
 
