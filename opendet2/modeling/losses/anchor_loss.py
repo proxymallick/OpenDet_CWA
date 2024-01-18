@@ -1,3 +1,9 @@
+# --------------------------------------------------------
+# Anchor loss with Wasserstein distance metric along with adaptive anchors motivated from https://github.com/dimitymiller/openset_detection
+# This code has been modified from the codes of the above repo.
+# Copyright © 2024 Prakash Mallick, AIML
+# --------------------------------------------------------
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -103,6 +109,51 @@ class AnchorwCrossEntropyLoss(nn.Module):
 
         self.anchors = set_anchors(num_classes)
         
+
+    def euclideanDistanceAdaptiveAnc(self, logits):
+        #plus one to account for background clss logit
+
+        logits = logits.view(-1, self.num_classes+1)
+        #self.anchors = set_anchors(self.num_classes, val= torch.mean(logits).cpu().detach().numpy()  )
+        n = logits.size(0)
+        m = self.anchors.size(0)
+        d = logits.size(1)
+
+        # Define the input measures
+        x = logits.detach().requires_grad_(True)  
+        y = self.anchors.detach().requires_grad_(True)  
+
+        # Define the Sinkhorn distance
+        loss = SamplesLoss("sinkhorn", p=1, blur=0.1, scaling=0.5, backend="tensorized")
+
+        # Compute the Sinkhorn distance between x and y
+        dist = loss(x, y)
+
+        # Compute the derivative of the Sinkhorn distance with respect to x
+        mean_dist = dist.mean()
+        mean_dist.backward(retain_graph=True)
+        grad_y = y.grad
+
+        temp = self.anchors - (0.02 * grad_y)
+        self.anchors =  nn.Parameter(temp , requires_grad = False).cuda()
+
+        x = logits.unsqueeze(1).expand(n, m, d)
+        #anchors = self.anchors.unsqueeze(0).expand(n, m, d)
+
+        dist_wass = dist.unsqueeze(-1).unsqueeze(-1).expand(x.shape[0],self.num_classes,1).squeeze(-1)#.shape
+        #for i in range(2048):
+        #    a[i]=loss(x[i,:,:],anchors[i,:,:])
+        #pdb.set_trace()
+        #dist_wass = None
+        #dists = torch.norm( x-anchors, 2, 2)
+        #del grad_x
+        del grad_y
+        # Clear the gradient buffers
+        x.grad = None
+        y.grad = None
+        del x,y, temp
+        return dist_wass
+
 
 
     def euclideanDistance(self, logits):
