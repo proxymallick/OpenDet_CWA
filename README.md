@@ -49,7 +49,9 @@ pip install -v -e .
 
 * **Prepare datasets** 
 
-Please follow [datasets/README.md](datasets/README.md) for dataset preparation. Then we generate VOC-COCO datasets.
+Please follow [README.md] (https://github.com/csuhan/opendet2/blob/main/datasets/README.md) of [Opendet2] (https://github.com/csuhan/opendet2)
+to prepare the dataset.
+It involves simple steps of following the script which utilizes VOC20{07,12} and COCO dataset to create combination of OS datasets using:
 
 ```
 bash datasets/opendet2_utils/prepare_openset_voc_coco.sh
