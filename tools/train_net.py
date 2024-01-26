@@ -2,7 +2,7 @@
 # Copyright (c) Facebook, Inc. and its affiliates.
 import os
 import sys
-sys.path.append('/data/opendet2_aimlteam/')
+sys.path.append( (os.getcwd()) + '/' )
 #print (sys.path)
 import detectron2.utils.comm as comm
 from detectron2.checkpoint import DetectionCheckpointer
