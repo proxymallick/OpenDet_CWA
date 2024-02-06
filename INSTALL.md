@@ -24,6 +24,29 @@ also installs detectron2 with a few simple commands.
 + Issues with numpy str : change np.str() to str() in the file
 	* "opendet_cwa/lib/python3.8/site-packages/detectron2/data/datasets/pascal_voc.py"
 
+
+
++ Issues with "site-packages/geomloss/sinkhorn_divergence.py"
+ 
+   * Change the view function to reshape function and there would be no problems running geomloss
+   * View size is not compatible with input tensor's size and stride (at least one dimension spans across two contiguous subspaces). Use .reshape(...) instead.
+
+
+
++  File "/opt/conda/lib/python3.8/site-packages/torch/optim/adamw.py", line 496, in _multi_tensor_adamw
+    torch._foreach_mul_(device_params, 1 - lr * weight_decay)
+    TypeError: unsupported operand type(s) for *: 'float' and 'NoneType'
+
+* some of the torch versions does not handle None as weight decay so you can add a line to handle:
+  if weight_decay not in [None,[]]:
+    ....
+
+
+
+* File "/opt/conda/lib/python3.8/site-packages/torch/optim/sgd.py", line 291, in _multi_tensor_sgd
+  Similar solution as above
+
+
 + Undefined torch/aten symbols, or segmentation fault immediately when running the library.
   This may be caused by the following reasons:
 
@@ -68,24 +91,4 @@ also installs detectron2 with a few simple commands.
 
    * Uninstall torchvision existing version and reinstall torchvision and the torch will consider the compatible version to be installed 
 
-
-
-+ Issues with "site-packages/geomloss/sinkhorn_divergence.py"
- 
-   * Change the view function to reshape function and there would be no problems running geomloss
-
-
-
-+  File "/opt/conda/lib/python3.8/site-packages/torch/optim/adamw.py", line 496, in _multi_tensor_adamw
-    torch._foreach_mul_(device_params, 1 - lr * weight_decay)
-    TypeError: unsupported operand type(s) for *: 'float' and 'NoneType'
-
-* some of the torch versions does not handle None as weight decay so you can add a line to handle:
-  if weight_decay not in [None,[]]:
-    ....
-
-
-
-* File "/opt/conda/lib/python3.8/site-packages/torch/optim/sgd.py", line 291, in _multi_tensor_sgd
-  Similar solution as above
 
