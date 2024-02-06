@@ -21,6 +21,9 @@ also installs detectron2 with a few simple commands.
 
 ### Common Installation and Run Issues of OpenDet 2
 
++ Issues with numpy str : change np.str() to str() in the file
+	* "opendet_cwa/lib/python3.8/site-packages/detectron2/data/datasets/pascal_voc.py"
+
 + Undefined torch/aten symbols, or segmentation fault immediately when running the library.
   This may be caused by the following reasons:
 
