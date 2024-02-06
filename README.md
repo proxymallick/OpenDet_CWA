@@ -41,7 +41,7 @@ Here is a from-scratch setup script.
 conda create -n opendet_cwa python=3.8 -y
 conda activate opendet_cwa
 pip install torch==2.0.1+cu117 torchvision torchaudio -f https://download.pytorch.org/whl/torch_stable.html
-pip install detectron2==0.5 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/torch1.8/index.html
+pip install 'detectron2 @ git+https://github.com/facebookresearch/detectron2.git@5aeb252b194b93dc2879b4ac34bc51a31b5aee13'
 git clone https://github.com/proxymallick/OpenDet_CWA.git
 cd OpenDet_CWA
 pip install -v -e .
