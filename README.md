@@ -42,12 +42,9 @@ conda create -n opendet_cwa python=3.8 -y
 conda activate opendet_cwa
 pip install torch==2.0.0 torchvision torchaudio torchtext
 pip install 'detectron2 @ git+https://github.com/facebookresearch/detectron2.git@5aeb252b194b93dc2879b4ac34bc51a31b5aee13'
-pip install geomloss
-pip install pillow==9.4
-pip install opencv-python
+pip install geomloss pillow==9.4 opencv-python
 git clone https://github.com/proxymallick/OpenDet_CWA.git
 cd OpenDet_CWA
-pip install -v -e .
 ```
 
 * **Prepare datasets** 
