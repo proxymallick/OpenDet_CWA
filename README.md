@@ -28,7 +28,6 @@ This paper addresses the significant challenge in open-set object detection (OSO
 
 
 
-
 ### Setup
 
 The code is based on [detectron2 v0.5](https://github.com/facebookresearch/detectron2/tree/v0.5). 
