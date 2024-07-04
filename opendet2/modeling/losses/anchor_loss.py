@@ -111,7 +111,7 @@ class AnchorwCrossEntropyLoss(nn.Module):
         self.anchor_weight = anchor_weight
 
         self.anchors = set_anchors(num_classes)
-        
+
 
     def euclideanDistanceAdaptiveAnc(self, logits):
         #plus one to account for background clss logit
@@ -137,7 +137,7 @@ class AnchorwCrossEntropyLoss(nn.Module):
         mean_dist.backward(retain_graph=True)
         grad_y = y.grad
 
-        temp = self.anchors - (0.02 * grad_y)
+        temp = self.anchors - (0.002 * grad_y)
         self.anchors =  nn.Parameter(temp , requires_grad = False).cuda()
 
         x = logits.unsqueeze(1).expand(n, m, d)
