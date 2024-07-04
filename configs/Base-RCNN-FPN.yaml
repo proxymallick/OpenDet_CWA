@@ -2,11 +2,13 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
   BACKBONE:
-    NAME: "build_resnet_fpn_backbone"
+    NAME: "build_fcos_resnet_fpn_backbone"
   RESNETS:
     OUT_FEATURES: ["res2", "res3", "res4", "res5"]
   FPN:
     IN_FEATURES: ["res2", "res3", "res4", "res5"]
+  PROPOSAL_GENERATOR:
+    NAME: "FCOS"
   ANCHOR_GENERATOR:
     SIZES: [[32], [64], [128], [256], [512]]  # One size for each in feature map
     ASPECT_RATIOS: [[0.5, 1.0, 2.0]]  # Three aspect ratios (same for all in feature maps)

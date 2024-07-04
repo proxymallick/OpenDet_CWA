@@ -361,8 +361,6 @@ class OpenSetRetinaNet(RetinaNet):
         pos_mask = (gt_labels >= 0) & (gt_labels != self.num_classes)
         num_pos_anchors = pos_mask.sum().item()
         get_event_storage().put_scalar("num_pos_anchors", num_pos_anchors / num_images)
-        import pdb
-        pdb.set_trace()
         self.loss_normalizer = self.loss_normalizer_momentum * self.loss_normalizer + (
             1 - self.loss_normalizer_momentum
         ) * max(num_pos_anchors, 1)

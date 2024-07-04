@@ -131,9 +131,10 @@ class DropoutStandardROIHeads(OpenSetStandardROIHeads):
                 box_features, testing=True) for _ in range(self.num_sample)]
 
         del box_features
-
+        
         if self.training:
             losses = self.box_predictor.losses(predictions, proposals)
+            
             # proposals is modified in-place below, so losses must be computed first.
             if self.train_on_pred_boxes:
                 with torch.no_grad():
