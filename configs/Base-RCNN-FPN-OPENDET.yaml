@@ -1,4 +1,6 @@
-_BASE_: "./Base-RCNN-FPN.yaml"
+_BASE_: "./Base-RCNN-FPN_backup.yaml"
+#"./Base-FCOS.yaml"
+#"./Base-RCNN-FPN.yaml"
 MODEL:
   MASK_ON: False
   ROI_HEADS:

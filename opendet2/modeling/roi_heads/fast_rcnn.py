@@ -25,7 +25,7 @@ from detectron2.utils.registry import Registry
 from fvcore.nn import giou_loss, smooth_l1_loss
 from torch import nn
 from torch.nn import functional as F
-
+#from ..losses.fcos import FCOSHead
 from ..layers import MLP
 from ..losses import ICLoss, UPLoss, AnchorwCrossEntropyLoss
 
@@ -175,6 +175,8 @@ class CosineFastRCNNOutputLayers(FastRCNNOutputLayers):
         # scaling factor
         self.scale = scale
         self.vis_iou_thr = vis_iou_thr
+        #head = FCOSHead(cfg, in_channels)
+        #self.head = head
 
     @classmethod
     def from_config(cls, cfg, input_shape):
@@ -184,7 +186,7 @@ class CosineFastRCNNOutputLayers(FastRCNNOutputLayers):
         return ret
 
     def forward(self, feats):
-        
+        box_cls, box_regression, centerness = self.head(feats)
         # support shared & sepearte head
         if isinstance(feats, tuple):
             reg_x, cls_x = feats
@@ -217,6 +219,7 @@ class CosineFastRCNNOutputLayers(FastRCNNOutputLayers):
 
         boxes = self.predict_boxes(predictions, proposals)
         scores = self.predict_probs(predictions, proposals)
+        #uncertainty = self.predict_uncertainty(predictions, proposals)
         image_shapes = [x.image_size for x in proposals]
         return fast_rcnn_inference(
             boxes,
@@ -301,14 +304,15 @@ class OpenDetFastRCNNOutputLayers(CosineFastRCNNOutputLayers):
         self.ic_loss_batch_iou_thr = ic_loss_batch_iou_thr
         self.ic_loss_queue_iou_thr = ic_loss_queue_iou_thr
         self.ic_loss_weight = ic_loss_weight
-        
-
+        print  (ic_loss_weight)
+        self.proser_weight = 0.2
         self.register_buffer('queue', torch.zeros(
             self.num_known_classes, ic_loss_queue_size, ic_loss_out_dim))
         self.register_buffer('queue_label', torch.empty(
             self.num_known_classes, ic_loss_queue_size).fill_(-1).long())
         self.register_buffer('queue_ptr', torch.zeros(
             self.num_known_classes, dtype=torch.long))
+
 
     @classmethod
     def from_config(cls, cfg, input_shape):
@@ -390,16 +394,6 @@ class OpenDetFastRCNNOutputLayers(CosineFastRCNNOutputLayers):
 
         return {"loss_cls_ic": self.ic_loss_weight * decay_weight * loss_ic_loss}
 
-    def get_anchor_loss(self, scores,gt_classes):
-        
-        storage = get_event_storage()
-        '''if storage.iter < 20000:
-            loss_anchor = self.anchor_loss.forward(scores,gt_classes)
-        else:
-            loss_anchor = scores.new_tensor(0.0)'''
-        loss_anchor = self.anchor_loss.forward(scores,gt_classes)
-        return {"loss_anchor": 0.1 *  loss_anchor}
-
     @torch.no_grad()
     def _dequeue_and_enqueue(self, feat, gt_classes, ious, iou_thr=0.7):
         # 1. gather variable
@@ -440,7 +434,112 @@ class OpenDetFastRCNNOutputLayers(CosineFastRCNNOutputLayers):
         output = torch.cat(tensors_gather, dim=0)
         return output
 
+    def get_anchor_loss(self, scores,gt_classes):
+        
+        storage = get_event_storage()
+        '''if storage.iter < 20000:
+            loss_anchor = self.anchor_loss.forward(scores,gt_classes)
+        else:
+            loss_anchor = scores.new_tensor(0.0)'''
+        loss_anchor = self.anchor_loss.forward(scores,gt_classes)
+        # loss decay
+        decay_weight = 1.0 - storage.iter / self.max_iters
+        return {"loss_anchor": 0.1  * loss_anchor}
+
+
+    def get_proser_loss(self, scores, gt_classes):
+        num_sample, num_classes = scores.shape
+        mask = torch.arange(num_classes).repeat(
+            num_sample, 1).to(scores.device)
+        inds = mask != gt_classes[:, None].repeat(1, num_classes)
+        mask = mask[inds].reshape(num_sample, num_classes-1)
+        mask_scores = torch.gather(scores, 1, mask)
+
+        targets = torch.zeros_like(gt_classes)
+        fg_inds = gt_classes != self.num_classes
+        targets[fg_inds] = self.num_classes-2
+        targets[~fg_inds] = self.num_classes-1
+
+        loss_cls_proser = cross_entropy(mask_scores, targets)
+        return {"loss_cls_proser": self.proser_weight * loss_cls_proser}
+    
+    def class_decor_module(self,scores,gt_classes,mlp_feat,weight):
+        ####
+        # Class decorrelation Module
+        ####
+        L_id = cross_entropy(scores, gt_classes )
+        tau2=2.0
+        norm_ff = mlp_feat / (mlp_feat**2).sum(0, keepdim=True).sqrt()
+        coef_mat = torch.mm(norm_ff.t(), norm_ff)
+        coef_mat.div_( tau2)
+        a = torch.arange(coef_mat.size(0), device=coef_mat.device)
+        L_fd = cross_entropy(coef_mat, a)
+        return {"loss_decor": weight *  (L_id + L_fd)}
+
     def losses(self, predictions, proposals, input_features=None):
+            """
+            Args:
+                predictions: return values of :meth:`forward()`.
+                proposals (list[Instances]): proposals that match the features that were used
+                    to compute predictions. The fields ``proposal_boxes``, ``gt_boxes``,
+                    ``gt_classes`` are expected.
+
+            Returns:
+                Dict[str, Tensor]: dict of losses
+            """
+            scores, proposal_deltas, mlp_feat = predictions
+            # parse classification outputs
+            gt_classes = (
+                cat([p.gt_classes for p in proposals], dim=0) if len(
+                    proposals) else torch.empty(0)
+            )
+            _log_classification_stats(scores, gt_classes)
+
+            # parse box regression outputs
+            if len(proposals):
+                proposal_boxes = cat(
+                    [p.proposal_boxes.tensor for p in proposals], dim=0)  # Nx4
+                assert not proposal_boxes.requires_grad, "Proposals should not require gradients!"
+                # If "gt_boxes" does not exist, the proposals must be all negative and
+                # should not be included in regression loss computation.
+                # Here we just use proposal_boxes as an arbitrary placeholder because its
+                # value won't be used in self.box_reg_loss().
+                gt_boxes = cat(
+                    [(p.gt_boxes if p.has("gt_boxes")
+                    else p.proposal_boxes).tensor for p in proposals],
+                    dim=0,
+                )
+            else:
+                proposal_boxes = gt_boxes = torch.empty(
+                    (0, 4), device=proposal_deltas.device)
+
+            losses = {
+                "loss_cls_ce": cross_entropy(scores, gt_classes, reduction="mean"),
+                "loss_box_reg": self.box_reg_loss(
+                    proposal_boxes, gt_boxes, proposal_deltas, gt_classes
+                ),
+            }
+
+
+            # up loss
+            losses.update(self.get_up_loss(scores, gt_classes))
+            losses.update(self.get_proser_loss(scores, gt_classes))
+            #losses.update(self.class_decor_module(scores, gt_classes,0.05))
+
+            ious = cat([p.iou for p in proposals], dim=0)
+            # we first store feats in the queue, then cmopute loss
+
+            self._dequeue_and_enqueue(
+                mlp_feat, gt_classes, ious, iou_thr=self.ic_loss_queue_iou_thr)
+            
+            losses.update(self.get_ic_loss(mlp_feat, gt_classes, ious,scores))
+
+
+            losses.update(self.get_anchor_loss(scores,gt_classes))
+
+            return {k: v * self.loss_weight.get(k, 1.0) for k, v in losses.items()}
+
+    '''def losses(self, predictions, proposals, input_features=None):
         """
         Args:
             predictions: return values of :meth:`forward()`.
@@ -484,7 +583,6 @@ class OpenDetFastRCNNOutputLayers(CosineFastRCNNOutputLayers):
             ),
         }
 
-
         # up loss
         losses.update(self.get_up_loss(scores, gt_classes))
 
@@ -494,12 +592,29 @@ class OpenDetFastRCNNOutputLayers(CosineFastRCNNOutputLayers):
         self._dequeue_and_enqueue(
             mlp_feat, gt_classes, ious, iou_thr=self.ic_loss_queue_iou_thr)
         
-        losses.update(self.get_ic_loss(mlp_feat, gt_classes, ious,scores))
+        #losses.update( self.get_ic_loss(mlp_feat, gt_classes, ious,scores))
+        ic_loss = self.get_ic_loss(mlp_feat, gt_classes, ious, scores)
+        # Assuming scores, gt_classes, mlp_feat, ious are available
 
+        # Compute individual losses
+        anchor_loss = self.get_anchor_loss(scores, gt_classes)
+        anchor_loss_val = anchor_loss['loss_anchor']
+        ic_loss_val = ic_loss['loss_cls_ic']
+        # Calculate individual losses
+        combined_loss = anchor_loss_val * ic_loss_val
+        
+        # Take square root
+        combined_loss_sqrt = torch.sqrt(combined_loss)
 
-        losses.update(self.get_anchor_loss(scores,gt_classes))
+        # Update the combined loss
+        losses.update(  {"loss_anchor_with_ic": combined_loss_sqrt} )
 
-        return {k: v * self.loss_weight.get(k, 1.0) for k, v in losses.items()}
+        #losses.update(self.get_anchor_loss(scores,gt_classes))
+
+        losses.update(self.class_decor_module(scores,gt_classes,mlp_feat,0.05))
+
+        return {k: v * self.loss_weight.get(k, 1.0) for k, v in losses.items()}'''
+
 
 
 @ROI_BOX_OUTPUT_LAYERS_REGISTRY.register()
@@ -629,6 +744,7 @@ class DropoutFastRCNNOutputLayers(CosineFastRCNNOutputLayers):
         """
         boxes = self.predict_boxes(predictions[0], proposals)
         scores = self.predict_probs(predictions, proposals)
+        uncertainty = self.predict_uncertainty(predictions, proposals)
         image_shapes = [x.image_size for x in proposals]
         return fast_rcnn_inference(
             boxes,
@@ -668,3 +784,16 @@ class DropoutFastRCNNOutputLayers(CosineFastRCNNOutputLayers):
         num_inst_per_image = [len(p) for p in proposals]
         probs = F.softmax(scores, dim=-1)
         return probs.split(num_inst_per_image, dim=0)
+    
+
+    def predict_uncertainty(self,predictions,proposals):
+        '''
+        This has been added from EOD paper
+        '''
+        scores, _,mlp_feat = predictions
+        num_inst_per_image = [len(p) for p in proposals]
+        n = scores.size(0);c = scores.size(1)
+        alpha = scores + 1  # Dirichlet distribution parameters
+        S = torch.sum(alpha, dim=1)  # Dirichlet strength
+        uncertainty= c/S
+        return uncertainty.split(num_inst_per_image, dim=0)
